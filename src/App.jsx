@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 export default function App() {
-  const [provider, setProvider] = useState('openai');
+  const [provider, setProvider] = useState('google');
   const [apiKey, setApiKey] = useState(localStorage.getItem('ai_api_key') || '');
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Halo! Saya AI Assistant by Zimzz. Isi API key lalu mulai chat. 🚀' }
@@ -123,7 +123,8 @@ async function callAPI(provider, key, msgs) {
   }
   if (provider === 'google') {
     const contents = msgs.map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.content }] }));
-    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
+    // ✅ DIPERBARUI: pakai gemini-flash-latest
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${key}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ contents })
